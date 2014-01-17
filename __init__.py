@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+# This file is part of the sale_invoice_line_standalone module for Tryton.
+# The COPYRIGHT file at the top level of this repository contains the full
+# copyright notices and license terms.
+
+from trytond.pool import Pool
+from .sale import *
+from .invoice import *
+
+
+def register():
+    Pool.register(
+        Sale,
+        SaleInvoiceLine,
+        SaleIgnoredInvoiceLine,
+        InvoiceLine,
+        module='sale_invoice_line_standalone', type_='model')
+    Pool.register(
+        HandleInvoiceException,
+        module='sale_invoice_line_standalone', type_='wizard')

@@ -1,0 +1,99 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:account.invoice.line:"
+msgid "You can not delete invoice lines that comes from a sale."
+msgstr "No podeu esborrar línies de factures generades des d'una venda."
+
+msgctxt "field:sale.sale,invoice_lines:"
+msgid "Invoice Lines"
+msgstr "Línies de factura"
+
+msgctxt "field:sale.sale,invoice_lines_ignored:"
+msgid "Invoice Lines Ignored"
+msgstr "Línies de factura ignorades"
+
+msgctxt "field:sale.sale-account.invoice.line,create_date:"
+msgid "Create Date"
+msgstr "Data creació"
+
+msgctxt "field:sale.sale-account.invoice.line,create_uid:"
+msgid "Create User"
+msgstr "Usuari creació"
+
+msgctxt "field:sale.sale-account.invoice.line,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:sale.sale-account.invoice.line,line:"
+msgid "Invoice Line"
+msgstr "Línia de factura"
+
+msgctxt "field:sale.sale-account.invoice.line,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:sale.sale-account.invoice.line,sale:"
+msgid "Sale"
+msgstr "Venda"
+
+msgctxt "field:sale.sale-account.invoice.line,write_date:"
+msgid "Write Date"
+msgstr "Data modificació"
+
+msgctxt "field:sale.sale-account.invoice.line,write_uid:"
+msgid "Write User"
+msgstr "Usuari modificació"
+
+msgctxt "field:sale.sale-ignored-account.invoice.line,create_date:"
+msgid "Create Date"
+msgstr "Data creació"
+
+msgctxt "field:sale.sale-ignored-account.invoice.line,create_uid:"
+msgid "Create User"
+msgstr "Usuari creació"
+
+msgctxt "field:sale.sale-ignored-account.invoice.line,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:sale.sale-ignored-account.invoice.line,invoice:"
+msgid "Invoice Line"
+msgstr "Línia de factura"
+
+msgctxt "field:sale.sale-ignored-account.invoice.line,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:sale.sale-ignored-account.invoice.line,sale:"
+msgid "Sale"
+msgstr "Venda"
+
+msgctxt "field:sale.sale-ignored-account.invoice.line,write_date:"
+msgid "Write Date"
+msgstr "Data modificació"
+
+msgctxt "field:sale.sale-ignored-account.invoice.line,write_uid:"
+msgid "Write User"
+msgstr "Usuari modificació"
+
+msgctxt "model:sale.sale-account.invoice.line,name:"
+msgid "Sale - Invoice Line"
+msgstr "Venda - Línia de factura"
+
+msgctxt "model:sale.sale-ignored-account.invoice.line,name:"
+msgid "Sale - Ignored Invoice Line"
+msgstr "Venda - Línia de factura ignorada"
+
+msgctxt "view:account.invoice.line:"
+msgid "Invoice Lines"
+msgstr "Línies de factura"
+
+msgctxt "wizard_button:sale.handle.invoice.exception,ask,end:"
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgctxt "wizard_button:sale.handle.invoice.exception,ask,handle:"
+msgid "Ok"
+msgstr "D'acord"
