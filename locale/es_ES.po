@@ -86,6 +86,14 @@ msgctxt "model:sale.sale-ignored-account.invoice.line,name:"
 msgid "Sale - Ignored Invoice Line"
 msgstr "Venta - Línea de factura ignorada"
 
+msgctxt "selection:account.invoice.line,aeat347_operation_key:"
+msgid ""
+msgstr ""
+
+msgctxt "selection:party.party,sale_invoice_grouping_method:"
+msgid "Standalone"
+msgstr "Solo Líneas"
+
 msgctxt "view:account.invoice.line:"
 msgid "Invoice Lines"
 msgstr "Líneas de factura"

@@ -21,33 +21,43 @@ class Sale:
 
     def create_invoice(self, invoice_type):
         pool = Pool()
-        Invoice = pool.get('account.invoice')
         InvoiceLine = pool.get('account.invoice.line')
 
-        invoice = super(Sale, self).create_invoice(invoice_type)
+        if (self.invoice_grouping_method and
+                self.invoice_grouping_method == 'standalone'):
+            invoice_lines = self._get_invoice_line_sale_line(invoice_type)
+            if not invoice_lines:
+                return
 
-        if invoice:
-            lines_to_delete = [l for l in invoice.lines if l.type != 'line']
-            lines = [l for l in invoice.lines if l.type == 'line']
-            invoice_line_ids = [l.id for l in lines]
+            to_create = []
+            for lines in invoice_lines.values():
+                for line in lines:
+                    if line.type != 'line':
+                        continue
+                    to_create.append(line._save_values)
+
+            if not to_create:
+                return
             with Transaction().set_user(0, set_context=True):
-                InvoiceLine.write(lines, {
-                    'invoice': None,
-                    'invoice_type': invoice.type,
-                    'party': invoice.party.id,
-                    'currency': invoice.currency.id,
-                    'company': invoice.company.id,
-                    })
-                InvoiceLine.delete(lines_to_delete)
+                lines = InvoiceLine.create(to_create)
             self.write([self], {
-                'invoices': [('unlink', [invoice.id])],
-                'invoice_lines': [('add', invoice_line_ids)],
+                'invoice_lines': [('add', lines)],
                 })
-            with Transaction().set_user(0, set_context=True):
-                Invoice.cancel([invoice])
-                Invoice.delete([invoice])
-            return None
-        return invoice
+            return lines
+        return super(Sale, self).create_invoice(invoice_type)
+
+    def _get_invoice_line_sale_line(self, invoice_type):
+        invoice_lines = super(Sale, self)._get_invoice_line_sale_line(
+            invoice_type)
+        invoice = self._get_invoice_sale(invoice_type)
+        for lines in invoice_lines.values():
+            for line in lines:
+                line.invoice_type = invoice.type
+                line.party = invoice.party
+                line.currency = invoice.currency
+                line.company = invoice.company
+                line.invoice = None
+        return invoice_lines
 
     def get_invoice_state(self):
         state = super(Sale, self).get_invoice_state()

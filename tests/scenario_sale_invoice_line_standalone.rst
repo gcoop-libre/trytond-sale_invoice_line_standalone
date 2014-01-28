@@ -143,9 +143,8 @@ Create chart of accounts::
 Create parties::
 
     >>> Party = Model.get('party.party')
-    >>> customer = Party(name='Supplier')
-    >>> customer.save()
     >>> customer = Party(name='Customer')
+    >>> customer.sale_invoice_grouping_method = 'standalone'
     >>> customer.save()
 
 Create category::
@@ -251,7 +250,6 @@ Create a customer invoice::
 
 Create a customer invoice with an accountant::
 
-    >>> customer, = Party.find([('name', '=', 'Customer')])
     >>> invoice = Invoice()
     >>> invoice.type = 'out_invoice'
     >>> invoice.party = customer

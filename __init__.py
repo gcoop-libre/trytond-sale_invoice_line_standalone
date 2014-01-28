@@ -4,6 +4,7 @@
 # copyright notices and license terms.
 
 from trytond.pool import Pool
+from .party import *
 from .sale import *
 from .invoice import *
 
@@ -14,6 +15,7 @@ def register():
         SaleInvoiceLine,
         SaleIgnoredInvoiceLine,
         InvoiceLine,
+        Party,
         module='sale_invoice_line_standalone', type_='model')
     Pool.register(
         HandleInvoiceException,
