@@ -1,17 +1,13 @@
 #:before:sale/sale:section:estados#
 
------------------------------------
-Añadir líneas pendientes de facturar
------------------------------------
+------------------------------------------
+Crear líneas de facutra en vez de facturas
+------------------------------------------
 
-Genera facturas a partir de líneas a facturar como sistema de automatización de
-facturación.
+Si el tercero dispone que el método de facturación es "Sólo líneas", cuando
+un pedido de venta genera facturas, en vez de generar una factura con sus líneas,
+con este método de facturación nos permitirá que sólo nos cree las líneas.
 
-Esto es muy común, por ejemplo, en procesos de contrato de servicios donde se
-generan líneas y, a final de mes, se facturan.
-
-Cuando cree una nueva factura, seleccione el tercero y podrá seleccionar las
-líneas de factura del mismo pendientes de facturar.
-
-.. note:: Sólo podrá seleccionar las líneas de factura del tercero que no se
-          hayan facturado previamente.
+Una vez creadas las líneas de facturas podemos seleccionar las líneas que se han
+creado y agrupar en una factura como deseamos sin la necesidad que una venta
+concide con una factura.
