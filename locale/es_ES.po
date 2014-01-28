@@ -92,7 +92,7 @@ msgstr ""
 
 msgctxt "selection:party.party,sale_invoice_grouping_method:"
 msgid "Standalone"
-msgstr "Solo Líneas"
+msgstr "Sólo líneas"
 
 msgctxt "view:account.invoice.line:"
 msgid "Invoice Lines"
