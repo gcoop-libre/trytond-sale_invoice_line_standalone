@@ -21,31 +21,32 @@ class InvoiceLine:
                 })
 
     @classmethod
-    def write(cls, lines, vals):
+    def write(cls, *args):
         Sale = Pool().get('sale.sale')
-
-        if 'invoice' in vals:
-            with Transaction().set_user(0, set_context=True):
-                sales = Sale.search([
-                        ('invoice_lines', 'in', [l.id for l in lines]),
-                        ])
-                if vals['invoice']:
-                    Sale.write(sales, {
-                        'invoices': [('add', [vals['invoice']])],
-                        })
-                else:
-                    for sale in sales:
-                        invoice_ids = list(set([x.invoice.id for x
-                                    in sale.invoice_lines
-                                    if x.invoice and x.id in lines])
-                            - set([x.invoice.id for x
-                                    in sale.invoice_lines
-                                    if x.invoice and x.id not in lines]))
-                        Sale.write([sale], {
-                            'invoices': [('unlink', invoice_ids)],
+        actions = iter(args)
+        for lines, values in zip(actions, actions):
+            if 'invoice' in values:
+                with Transaction().set_user(0, set_context=True):
+                    sales = Sale.search([
+                            ('invoice_lines', 'in', [l.id for l in lines]),
+                            ])
+                    if values['invoice']:
+                        Sale.write(sales, {
+                            'invoices': [('add', [values['invoice']])],
                             })
+                    else:
+                        for sale in sales:
+                            invoice_ids = list(set([x.invoice.id for x
+                                        in sale.invoice_lines
+                                        if x.invoice and x.id in lines])
+                                - set([x.invoice.id for x
+                                        in sale.invoice_lines
+                                        if x.invoice and x.id not in lines]))
+                            Sale.write([sale], {
+                                'invoices': [('unlink', invoice_ids)],
+                                })
 
-        return super(InvoiceLine, cls).write(lines, vals)
+        return super(InvoiceLine, cls).write(*args)
 
     @classmethod
     def delete(cls, lines):
