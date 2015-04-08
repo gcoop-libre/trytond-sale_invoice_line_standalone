@@ -19,5 +19,4 @@ def register():
         module='sale_invoice_line_standalone', type_='model')
     Pool.register(
         HandleInvoiceException,
-        ReduceLineQuantity,
         module='sale_invoice_line_standalone', type_='wizard')
