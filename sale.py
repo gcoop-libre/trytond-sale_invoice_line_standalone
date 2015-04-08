@@ -7,7 +7,7 @@ from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
 
 __all__ = ['Sale', 'SaleInvoiceLine', 'SaleIgnoredInvoiceLine',
-    'HandleInvoiceException']
+    'HandleInvoiceException', 'ReduceLineQuantity']
 __metaclass__ = PoolMeta
 
 
@@ -123,3 +123,11 @@ class HandleInvoiceException:
                     })
         Sale.process([sale])
         return state
+
+
+class ReduceLineQuantity:
+    __name__ = 'sale.reduce_line_quantity'
+
+    def update_invoice_line(self):
+        with Transaction().set_context(allow_remove_sale_invoice_lines=True):
+            super(ReduceLineQuantity, self).update_invoice_line()
