@@ -1,7 +1,7 @@
 #:before:sale/sale:section:estados#
 
 ------------------------------------------
-Crear líneas de facutra en vez de facturas
+Crear líneas de factura en vez de facturas
 ------------------------------------------
 
 Si el tercero dispone que el método de facturación es "Sólo líneas", cuando
