@@ -18,11 +18,11 @@ Create database::
 
 Install sale_invoice_line_standalone::
 
-    >>> Module = Model.get('ir.module.module')
+    >>> Module = Model.get('ir.module')
     >>> sale_module, = Module.find([('name', '=',
     ...     'sale_invoice_line_standalone')])
     >>> Module.install([sale_module.id], config.context)
-    >>> Wizard('ir.module.module.install_upgrade').execute('upgrade')
+    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
 
 Create company::
 
