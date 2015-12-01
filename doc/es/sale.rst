@@ -9,5 +9,5 @@ un pedido de venta genera facturas, en vez de generar una factura con sus línea
 con este método de facturación nos permitirá que sólo nos cree las líneas.
 
 Una vez creadas las líneas de facturas podemos seleccionar las líneas que se han
-creado y agrupar en una factura como deseamos sin la necesidad que una venta
-concide con una factura.
+creado y agrupar en una factura como deseamos sin la necesidad que la venta
+concida con la factura.
