@@ -8,10 +8,10 @@ from trytond.pool import Pool, PoolMeta
 
 __all__ = ['Sale', 'SaleInvoiceLine', 'SaleIgnoredInvoiceLine',
     'HandleInvoiceException']
-__metaclass__ = PoolMeta
 
 
 class Sale:
+    __metaclass__ = PoolMeta
     __name__ = 'sale.sale'
     invoice_lines = fields.Many2Many('sale.sale-account.invoice.line',
             'sale', 'line', 'Invoice Lines', readonly=True)
@@ -104,6 +104,7 @@ class SaleIgnoredInvoiceLine(ModelSQL):
 
 
 class HandleInvoiceException:
+    __metaclass__ = PoolMeta
     __name__ = 'sale.handle.invoice.exception'
 
     def transition_handle(self):
