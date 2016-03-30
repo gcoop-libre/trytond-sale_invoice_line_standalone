@@ -19,13 +19,13 @@ class Sale:
             'sale.sale-ignored-account.invoice.line',
             'sale', 'invoice', 'Invoice Lines Ignored', readonly=True)
 
-    def create_invoice(self, invoice_type):
+    def create_invoice(self):
         pool = Pool()
         InvoiceLine = pool.get('account.invoice.line')
 
         if (self.invoice_grouping_method and
                 self.invoice_grouping_method == 'standalone'):
-            invoice_lines = self._get_invoice_line_sale_line(invoice_type)
+            invoice_lines = self._get_invoice_line_sale_line()
             if not invoice_lines:
                 return
 
@@ -44,12 +44,11 @@ class Sale:
                 'invoice_lines': [('add', lines)],
                 })
             return lines
-        return super(Sale, self).create_invoice(invoice_type)
+        return super(Sale, self).create_invoice()
 
-    def _get_invoice_line_sale_line(self, invoice_type):
-        invoice_lines = super(Sale, self)._get_invoice_line_sale_line(
-            invoice_type)
-        invoice = self._get_invoice_sale(invoice_type)
+    def _get_invoice_line_sale_line(self):
+        invoice_lines = super(Sale, self)._get_invoice_line_sale_line()
+        invoice = self._get_invoice_sale()
         for lines in invoice_lines.values():
             for line in lines:
                 line.invoice_type = invoice.type
