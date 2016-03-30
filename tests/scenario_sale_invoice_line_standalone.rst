@@ -172,7 +172,7 @@ Create a customer invoice::
     >>> config.user = accountant.id
     >>> Invoice = Model.get('account.invoice')
     >>> invoice = Invoice()
-    >>> invoice.type = 'out_invoice'
+    >>> invoice.type = 'out'
     >>> invoice.party = customer
     >>> len(invoice.lines.find())
     3
@@ -183,7 +183,7 @@ Create a customer invoice::
 Create a customer invoice with an accountant::
 
     >>> invoice = Invoice()
-    >>> invoice.type = 'out_invoice'
+    >>> invoice.type = 'out'
     >>> invoice.party = customer
     >>> len(invoice.lines.find())
     2
