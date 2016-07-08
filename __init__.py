@@ -7,9 +7,11 @@ from .party import *
 from .sale import *
 from .invoice import *
 
+
 def register():
     Pool.register(
         Sale,
+        SaleLine,
         SaleInvoiceLine,
         SaleIgnoredInvoiceLine,
         InvoiceLine,
