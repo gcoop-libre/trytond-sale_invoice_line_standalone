@@ -6,7 +6,7 @@ from trytond.model import ModelSQL, fields
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
 
-__all__ = ['Sale', 'SaleInvoiceLine', 'SaleIgnoredInvoiceLine',
+__all__ = ['Sale', 'SaleLine', 'SaleInvoiceLine', 'SaleIgnoredInvoiceLine',
     'HandleInvoiceException']
 
 
@@ -25,38 +25,24 @@ class Sale:
 
         if (self.invoice_grouping_method and
                 self.invoice_grouping_method == 'standalone'):
-            invoice_lines = self._get_invoice_line_sale_line()
+            invoice_lines = []
+            for line in self.lines:
+                invoice_lines.extend(line.get_invoice_line())
             if not invoice_lines:
                 return
 
             to_create = []
-            for lines in invoice_lines.values():
-                for line in lines:
-                    if line.type != 'line':
-                        continue
-                    to_create.append(line._save_values)
+            for line in invoice_lines:
+                if line.type != 'line':
+                    continue
+                to_create.append(line)
 
             if not to_create:
                 return
             with Transaction().set_user(0, set_context=True):
-                lines = InvoiceLine.create(to_create)
-            self.write([self], {
-                'invoice_lines': [('add', lines)],
-                })
+                lines = InvoiceLine.save(to_create)
             return lines
         return super(Sale, self).create_invoice()
-
-    def _get_invoice_line_sale_line(self):
-        invoice_lines = super(Sale, self)._get_invoice_line_sale_line()
-        invoice = self._get_invoice_sale()
-        for lines in invoice_lines.values():
-            for line in lines:
-                line.invoice_type = invoice.type
-                line.party = invoice.party
-                line.currency = invoice.currency
-                line.company = invoice.company
-                line.invoice = None
-        return invoice_lines
 
     def get_invoice_state(self):
         state = super(Sale, self).get_invoice_state()
@@ -80,6 +66,24 @@ class Sale:
         default['invoice_lines'] = None
         default['invoice_lines_ignored'] = None
         return super(Sale, cls).copy(sales, default=default)
+
+
+class SaleLine:
+    __metaclass__ = PoolMeta
+    __name__ = 'sale.line'
+
+    def get_invoice_line(self):
+        invoice = self.sale._get_invoice_sale()
+
+        invoice_lines = super(SaleLine, self).get_invoice_line()
+        for invoice_line in invoice_lines:
+            invoice_line.invoice_type = invoice.type
+            invoice_line.party = invoice.party
+            invoice_line.currency = invoice.currency
+            invoice_line.company = invoice.company
+            invoice_line.invoice = None
+            invoice_line.origin = self
+        return invoice_lines
 
 
 class SaleInvoiceLine(ModelSQL):
