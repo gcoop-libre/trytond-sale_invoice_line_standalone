@@ -13,7 +13,7 @@ Imports::
     ...     get_company
     >>> from trytond.modules.account.tests.tools import create_fiscalyear, \
     ...     create_chart, get_accounts, create_tax, set_tax_code
-    >>> from.trytond.modules.account_invoice.tests.tools import \
+    >>> from trytond.modules.account_invoice.tests.tools import \
     ...     set_fiscalyear_invoice_sequences, create_payment_term
     >>> today = datetime.date.today()
 
@@ -35,14 +35,10 @@ Create company::
     >>> _ = create_company()
     >>> company = get_company()
 
-Reload the context::
+Create sale user::
 
     >>> User = Model.get('res.user')
     >>> Group = Model.get('res.group')
-    >>> config._context = User.get_preferences(True, config.context)
-
-Create sale user::
-
     >>> sale_user = User()
     >>> sale_user.name = 'Sale'
     >>> sale_user.login = 'sale'
