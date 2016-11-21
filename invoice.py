@@ -20,34 +20,6 @@ class InvoiceLine:
                 })
 
     @classmethod
-    def write(cls, *args):
-        Sale = Pool().get('sale.sale')
-        actions = iter(args)
-        for lines, values in zip(actions, actions):
-            if 'invoice' in values:
-                with Transaction().set_user(0, set_context=True):
-                    sales = Sale.search([
-                            ('invoice_lines', 'in', [l.id for l in lines]),
-                            ])
-                    if values['invoice']:
-                        Sale.write(sales, {
-                            'invoices': [('add', [values['invoice']])],
-                            })
-                    else:
-                        for sale in sales:
-                            invoice_ids = list(set([x.invoice.id for x
-                                        in sale.invoice_lines
-                                        if x.invoice and x.id in lines])
-                                - set([x.invoice.id for x
-                                        in sale.invoice_lines
-                                        if x.invoice and x.id not in lines]))
-                            Sale.write([sale], {
-                                'invoices': [('unlink', invoice_ids)],
-                                })
-
-        return super(InvoiceLine, cls).write(*args)
-
-    @classmethod
     def delete(cls, lines):
         SaleLine = Pool().get('sale.line')
         if (not Transaction().context.get('allow_remove_sale_invoice_lines')

@@ -154,6 +154,8 @@ Sale 3 products::
     0
     >>> len(sale.invoices)
     0
+    >>> len(sale.invoice_lines)
+    3
 
 Create a customer invoice::
 
@@ -167,9 +169,14 @@ Create a customer invoice::
     >>> line1 = invoice.lines.find()[0]
     >>> invoice.lines.append(line1)
     >>> invoice.save()
+    >>> config.user = sale.id
+    >>> sale.reload()
+    >>> len(sale.invoices)
+    1
 
 Create a customer invoice with an accountant::
 
+    >>> config.user = accountant.id
     >>> invoice = Invoice()
     >>> invoice.type = 'out'
     >>> invoice.party = customer

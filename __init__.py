@@ -12,7 +12,6 @@ def register():
     Pool.register(
         Sale,
         SaleLine,
-        SaleInvoiceLine,
         SaleIgnoredInvoiceLine,
         InvoiceLine,
         Party,

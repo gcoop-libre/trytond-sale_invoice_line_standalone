@@ -6,18 +6,26 @@ from trytond.model import ModelSQL, fields
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
 
-__all__ = ['Sale', 'SaleLine', 'SaleInvoiceLine', 'SaleIgnoredInvoiceLine',
+__all__ = ['Sale', 'SaleLine', 'SaleIgnoredInvoiceLine',
     'HandleInvoiceException']
 
 
 class Sale:
     __metaclass__ = PoolMeta
     __name__ = 'sale.sale'
-    invoice_lines = fields.Many2Many('sale.sale-account.invoice.line',
-            'sale', 'line', 'Invoice Lines', readonly=True)
+    invoice_lines = fields.Function(fields.One2Many('account.invoice.line',
+            None, 'Invoice Lines'), 'get_invoice_lines',
+        searcher='search_invoice_lines')
     invoice_lines_ignored = fields.Many2Many(
             'sale.sale-ignored-account.invoice.line',
             'sale', 'invoice', 'Invoice Lines Ignored', readonly=True)
+
+    def get_invoice_lines(self, name):
+        return list({il.id for l in self.lines for il in l.invoice_lines})
+
+    @classmethod
+    def search_invoice_lines(cls, name, clause):
+        return [('lines.invoice_lines',) + tuple(clause[1:])]
 
     def create_invoice(self):
         pool = Pool()
