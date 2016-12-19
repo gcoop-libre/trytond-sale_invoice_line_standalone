@@ -94,16 +94,6 @@ class SaleLine:
         return invoice_lines
 
 
-class SaleInvoiceLine(ModelSQL):
-    'Sale - Invoice Line'
-    __name__ = 'sale.sale-account.invoice.line'
-    _table = 'sale_invoice_line_rel'
-    sale = fields.Many2One('sale.sale', 'Sale',
-            ondelete='CASCADE', select=True, required=True)
-    line = fields.Many2One('account.invoice.line', 'Invoice Line',
-            ondelete='RESTRICT', select=True, required=True)
-
-
 class SaleIgnoredInvoiceLine(ModelSQL):
     'Sale - Ignored Invoice Line'
     __name__ = 'sale.sale-ignored-account.invoice.line'
