@@ -44,7 +44,6 @@ Create an accountant user::
     >>> accountant = User()
     >>> accountant.name = 'Accountant'
     >>> accountant.login = 'accountant'
-    >>> accountant.password = 'accountant'
     >>> accountant.main_company = company
     >>> account_group, = Group.find([('name', '=', 'Account')])
     >>> accountant.groups.append(account_group)
@@ -84,7 +83,6 @@ Create product::
     >>> unit, = ProductUom.find([('name', '=', 'Unit')])
     >>> ProductTemplate = Model.get('product.template')
     >>> Product = Model.get('product.product')
-    >>> product = Product()
     >>> template = ProductTemplate()
     >>> template.name = 'product'
     >>> template.category = category
@@ -93,13 +91,13 @@ Create product::
     >>> template.purchasable = True
     >>> template.salable = True
     >>> template.list_price = Decimal('10')
-    >>> template.cost_price = Decimal('5')
     >>> template.cost_price_method = 'fixed'
     >>> template.account_expense = expense
     >>> template.account_revenue = revenue
+    >>> product, = template.products
+    >>> product.cost_price = Decimal('5')
     >>> template.save()
-    >>> product.template = template
-    >>> product.save()
+    >>> product, = template.products
 
 Create payment term::
 
