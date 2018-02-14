@@ -14,5 +14,5 @@ class Party:
     def __setup__(cls):
         super(Party, cls).__setup__()
         standalone = ('standalone', 'Standalone')
-        if not standalone in cls.sale_invoice_grouping_method.selection:
+        if standalone not in cls.sale_invoice_grouping_method.selection:
             cls.sale_invoice_grouping_method.selection.append(standalone)
