@@ -39,6 +39,16 @@ Create sale user::
     >>> sale_user.groups.append(sale_group)
     >>> sale_user.save()
 
+Create stock user::
+
+    >>> stock_user = User()
+    >>> stock_user.name = 'Stock'
+    >>> stock_user.login = 'stock'
+    >>> stock_user.main_company = company
+    >>> stock_group, = Group.find([('name', '=', 'Stock')])
+    >>> stock_user.groups.append(stock_group)
+    >>> stock_user.save()
+
 Create an accountant user::
 
     >>> accountant = User()
@@ -71,6 +81,15 @@ Create parties::
     >>> customer = Party(name='Customer')
     >>> customer.sale_invoice_grouping_method = 'standalone'
     >>> customer.save()
+
+Get stock locations::
+
+    >>> Location = Model.get('stock.location')
+    >>> warehouse_loc, = Location.find([('code', '=', 'WH')])
+    >>> supplier_loc, = Location.find([('code', '=', 'SUP')])
+    >>> customer_loc, = Location.find([('code', '=', 'CUS')])
+    >>> output_loc, = Location.find([('code', '=', 'OUT')])
+    >>> storage_loc, = Location.find([('code', '=', 'STO')])
 
 Create category::
 
@@ -156,6 +175,34 @@ Sale 3 products::
     0
     >>> len(sale.invoice_lines)
     3
+    >>> len(sale.shipments)
+    1
+
+Done shipment::
+
+    >>> config.user = stock_user.id
+    >>> StockMove = Model.get('stock.move')
+    >>> incoming_move = StockMove()
+    >>> incoming_move.product = product
+    >>> incoming_move.uom = unit
+    >>> incoming_move.quantity = 10.0
+    >>> incoming_move.from_location = supplier_loc
+    >>> incoming_move.to_location = storage_loc
+    >>> incoming_move.planned_date = today
+    >>> incoming_move.effective_date = today
+    >>> incoming_move.company = company
+    >>> incoming_move.unit_price = Decimal('1')
+    >>> incoming_move.currency = company.currency
+    >>> incoming_move.click('do')
+    >>> shipment = sale.shipments[0]
+    >>> shipment.click('assign_try')
+    True
+    >>> shipment.click('pack')
+    >>> shipment.click('done')
+    >>> config.user = sale_user.id
+    >>> sale.reload()
+    >>> sale.state
+    u'processing'
 
 Create a customer invoice::
 
