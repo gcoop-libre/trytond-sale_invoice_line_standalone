@@ -164,7 +164,7 @@ Sale 3 products::
     >>> Sale.confirm([sale.id], config.context)
     >>> Sale.process([sale.id], config.context)
     >>> sale.state
-    u'processing'
+    'processing'
     >>> sale.reload()
     >>> len(sale.moves)
     3
@@ -201,7 +201,7 @@ Done shipment::
     >>> config.user = sale_user.id
     >>> sale.reload()
     >>> sale.state
-    u'processing'
+    'processing'
 
 Create a customer invoice::
 

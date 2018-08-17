@@ -10,8 +10,7 @@ __all__ = ['Sale', 'SaleLine', 'SaleIgnoredInvoiceLine',
     'HandleInvoiceException']
 
 
-class Sale:
-    __metaclass__ = PoolMeta
+class Sale(metaclass=PoolMeta):
     __name__ = 'sale.sale'
     invoice_lines = fields.Function(fields.One2Many('account.invoice.line',
             None, 'Invoice Lines'), 'get_invoice_lines',
@@ -78,8 +77,7 @@ class Sale:
         return super(Sale, cls).copy(sales, default=default)
 
 
-class SaleLine:
-    __metaclass__ = PoolMeta
+class SaleLine(metaclass=PoolMeta):
     __name__ = 'sale.line'
 
     def get_invoice_line(self):
@@ -106,8 +104,7 @@ class SaleIgnoredInvoiceLine(ModelSQL):
             ondelete='RESTRICT', select=True, required=True)
 
 
-class HandleInvoiceException:
-    __metaclass__ = PoolMeta
+class HandleInvoiceException(metaclass=PoolMeta):
     __name__ = 'sale.handle.invoice.exception'
 
     def transition_handle(self):
