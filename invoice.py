@@ -3,6 +3,8 @@
 # copyright notices and license terms.
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
+from trytond.i18n import gettext
+from trytond.exceptions import UserError
 
 __all__ = ['InvoiceLine']
 
@@ -10,13 +12,6 @@ __all__ = ['InvoiceLine']
 class InvoiceLine(metaclass=PoolMeta):
     __name__ = 'account.invoice.line'
 
-    @classmethod
-    def __setup__(cls):
-        super(InvoiceLine, cls).__setup__()
-        cls._error_messages.update({
-                'delete_sale_invoice_line': ('You can not delete '
-                    'invoice lines that comes from a sale.'),
-                })
 
     @classmethod
     def delete(cls, lines):
