@@ -85,7 +85,8 @@ class SaleLine(metaclass=PoolMeta):
 
         invoice_lines = super(SaleLine, self).get_invoice_line()
         for invoice_line in invoice_lines:
-            invoice_line.invoice_type = invoice.type
+            if not invoice_line.invoice_type:
+                invoice_line.invoice_type = invoice.type
             invoice_line.party = invoice.party
             invoice_line.currency = invoice.currency
             invoice_line.company = invoice.company
