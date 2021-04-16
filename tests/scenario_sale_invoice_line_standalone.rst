@@ -191,8 +191,11 @@ Done shipment::
     >>> shipment = sale.shipments[0]
     >>> shipment.click('assign_try')
     True
+    >>> shipment.click('pick')
     >>> shipment.click('pack')
     >>> shipment.click('done')
+    >>> shipment.state
+    'done'
     >>> config.user = sale_user.id
     >>> sale.reload()
     >>> sale.state
