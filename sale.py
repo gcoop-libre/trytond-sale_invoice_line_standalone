@@ -29,6 +29,8 @@ class Sale(metaclass=PoolMeta):
     def create_invoice(self):
         pool = Pool()
         InvoiceLine = pool.get('account.invoice.line')
+        if self.invoice_method == 'manual':
+            return
 
         if (self.invoice_grouping_method and
                 self.invoice_grouping_method == 'standalone'):
