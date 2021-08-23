@@ -15,5 +15,5 @@ copyright notices and license terms. -->
     <field name="taxes"/>
     <field name="amount"/>
     <field name="unit_digits" tree_invisible="1"/>
-    <field name="currency_digits" tree_invisible="1"/>
+    <field name="currency" tree_invisible="1"/>
 </tree>
