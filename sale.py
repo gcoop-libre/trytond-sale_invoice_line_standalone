@@ -103,9 +103,9 @@ class SaleIgnoredInvoiceLine(ModelSQL):
     __name__ = 'sale.sale-ignored-account.invoice.line'
     _table = 'sale_invoice_line_ignored_rel'
     sale = fields.Many2One('sale.sale', 'Sale',
-            ondelete='CASCADE', select=True, required=True)
+            ondelete='CASCADE', required=True)
     invoice = fields.Many2One('account.invoice.line', 'Invoice Line',
-            ondelete='RESTRICT', select=True, required=True)
+            ondelete='RESTRICT', required=True)
 
 
 class HandleInvoiceException(metaclass=PoolMeta):
