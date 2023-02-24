@@ -190,7 +190,6 @@ Done shipment::
     >>> incoming_move.click('do')
     >>> shipment = sale.shipments[0]
     >>> shipment.click('assign_try')
-    True
     >>> shipment.click('pick')
     >>> shipment.click('pack')
     >>> shipment.click('done')
