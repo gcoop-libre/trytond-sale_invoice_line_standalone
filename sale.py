@@ -66,7 +66,7 @@ class Sale(metaclass=PoolMeta):
                     and all(l.invoice.state == 'paid' for l in invoice_lines)):
                 return 'paid'
             elif state == 'none':
-                return 'waiting'
+                return 'pending'
         return state
 
     @classmethod
