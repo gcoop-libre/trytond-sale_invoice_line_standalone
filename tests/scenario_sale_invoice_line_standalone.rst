@@ -178,7 +178,7 @@ Done shipment::
     >>> StockMove = Model.get('stock.move')
     >>> incoming_move = StockMove()
     >>> incoming_move.product = product
-    >>> incoming_move.uom = unit
+    >>> incoming_move.unit = unit
     >>> incoming_move.quantity = 10.0
     >>> incoming_move.from_location = supplier_loc
     >>> incoming_move.to_location = storage_loc
