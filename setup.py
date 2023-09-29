@@ -104,8 +104,4 @@ setup(name='%s_%s' % (PREFIX, MODULE),
     [trytond.modules]
     %s = trytond.modules.%s
     """ % (MODULE, MODULE),
-    test_suite='tests',
-    test_loader='trytond.test_loader:Loader',
-    tests_require=tests_require,
-
     )
