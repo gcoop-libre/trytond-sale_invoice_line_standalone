@@ -74,7 +74,6 @@ class Sale(metaclass=PoolMeta):
         if default is None:
             default = {}
         default = default.copy()
-        default['invoice_lines'] = None
         default['invoice_lines_ignored'] = None
         return super(Sale, cls).copy(sales, default=default)
 
