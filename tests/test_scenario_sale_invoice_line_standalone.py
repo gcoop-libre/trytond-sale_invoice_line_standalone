@@ -202,3 +202,42 @@ class Test(unittest.TestCase):
         invoice.save()
         _ = invoice.lines.pop()
         invoice.save()
+
+        # create sale and manual invoice
+        config.user = sale_user.id
+        sale = Sale()
+        sale.party = customer
+        sale.payment_term = payment_term
+        sale.invoice_method = 'manual'
+        sale_line = SaleLine()
+        sale.lines.append(sale_line)
+        sale_line.product = product
+        sale_line.quantity = 2.0
+        sale.save()
+        sale.click('quote')
+        sale.click('confirm')
+        self.assertEqual(sale.state, 'processing')
+        sale.reload()
+        self.assertEqual(len(sale.moves), 1)
+        self.assertEqual(len(sale.shipment_returns), 0)
+        self.assertEqual(len(sale.invoices), 0)
+        self.assertEqual(len(sale.invoice_lines), 0)
+        self.assertEqual(len(sale.shipments), 1)
+
+        # Done shipment
+        config.user = stock_user.id
+        shipment = sale.shipments[0]
+        shipment.click('assign_try')
+        shipment.click('pick')
+        shipment.click('pack')
+        shipment.click('do')
+        self.assertEqual(shipment.state, 'done')
+
+        config.user = sale_user.id
+        sale.reload()
+        self.assertEqual(sale.state, 'processing')
+        self.assertEqual(len(sale.invoice_lines), 0)
+        # create manual invoices (invoice lines)
+        sale.click('manual_invoice')
+        self.assertEqual(len(sale.invoices), 0)
+        self.assertEqual(len(sale.invoice_lines), 1)
