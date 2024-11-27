@@ -58,10 +58,7 @@ class Sale(metaclass=PoolMeta):
             return
         for line in invoice.lines:
             line.party = invoice.party
-        # TODO: This save() should not be required but it does not save the
-        # party without this as the value is lost before saving (at least with
-        # analytic_sale) module active. See b2ck8007 for details.
-        InvoiceLine.save(invoice.lines)
+        invoice.lines = invoice.lines
         return invoice
 
     def get_invoice_state(self):
