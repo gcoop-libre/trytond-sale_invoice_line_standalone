@@ -11,7 +11,6 @@ from . import invoice
 def register():
     Pool.register(
         sale.Sale,
-        sale.SaleLine,
         sale.SaleIgnoredInvoiceLine,
         invoice.InvoiceLine,
         party.Party,

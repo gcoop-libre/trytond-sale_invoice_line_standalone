@@ -6,9 +6,6 @@ from trytond.model import ModelSQL, fields
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
 
-__all__ = ['Sale', 'SaleLine', 'SaleIgnoredInvoiceLine',
-    'HandleInvoiceException']
-
 
 class Sale(metaclass=PoolMeta):
     __name__ = 'sale.sale'
@@ -43,21 +40,32 @@ class Sale(metaclass=PoolMeta):
             if not invoice_lines:
                 return
 
-            to_create = []
+            to_save = []
             for line in invoice_lines:
                 if line.type != 'line':
                     continue
-                to_create.append(line)
+                line.party = self.party
+                to_save.append(line)
 
-            if not to_create:
+            if not to_save:
                 return
             with Transaction().set_user(0, set_context=True):
-                lines = InvoiceLine.save(to_create)
+                lines = InvoiceLine.save(to_save)
             return lines
-        return super(Sale, self).create_invoice()
+
+        invoice = super().create_invoice()
+        if not invoice:
+            return
+        for line in invoice.lines:
+            line.party = invoice.party
+        # TODO: This save() should not be required but it does not save the
+        # party without this as the value is lost before saving (at least with
+        # analytic_sale) module active. See b2ck8007 for details.
+        InvoiceLine.save(invoice.lines)
+        return invoice
 
     def get_invoice_state(self):
-        state = super(Sale, self).get_invoice_state()
+        state = super().get_invoice_state()
         skips = set(x.id for x in self.invoice_lines_ignored)
         invoice_lines = [l for l in self.invoice_lines if l.id not in skips]
         if invoice_lines:
@@ -81,25 +89,6 @@ class Sale(metaclass=PoolMeta):
         return super().copy(sales, default=default)
 
 
-class SaleLine(metaclass=PoolMeta):
-    __name__ = 'sale.line'
-
-    def get_invoice_line(self):
-        invoice = self.sale._get_invoice_sale()
-
-        invoice_lines = super(SaleLine, self).get_invoice_line()
-        for invoice_line in invoice_lines:
-            if (not hasattr(invoice_line, 'invoice_type')
-                    or not invoice_line.invoice_type):
-                invoice_line.invoice_type = invoice.type
-            invoice_line.party = invoice.party
-            invoice_line.currency = invoice.currency
-            invoice_line.company = invoice.company
-            invoice_line.invoice = None
-            invoice_line.origin = self
-        return invoice_lines
-
-
 class SaleIgnoredInvoiceLine(ModelSQL):
     'Sale - Ignored Invoice Line'
     __name__ = 'sale.sale-ignored-account.invoice.line'
@@ -116,7 +105,7 @@ class HandleInvoiceException(metaclass=PoolMeta):
     def transition_handle(self):
         Sale = Pool().get('sale.sale')
 
-        state = super(HandleInvoiceException, self).transition_handle()
+        state = super().transition_handle()
 
         sale = Sale(Transaction().context['active_id'])
         invoice_lines = []

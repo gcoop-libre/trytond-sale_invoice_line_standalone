@@ -6,8 +6,6 @@ from trytond.pool import Pool, PoolMeta
 from trytond.i18n import gettext
 from trytond.exceptions import UserError
 
-__all__ = ['InvoiceLine']
-
 
 class InvoiceLine(metaclass=PoolMeta):
     __name__ = 'account.invoice.line'
